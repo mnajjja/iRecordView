@@ -95,7 +95,7 @@ public class RecordView: UIView, CAAnimationDelegate {
         timerStackView.spacing = 5
 
 
-        slideToCancelStackVIew = UIStackView(arrangedSubviews: [arrow, slideLabel])
+        slideToCancelStackVIew = UIStackView(arrangedSubviews: [slideLabel])
         slideToCancelStackVIew.translatesAutoresizingMaskIntoConstraints = false
         slideToCancelStackVIew.isHidden = true
 
@@ -282,6 +282,9 @@ public class RecordView: UIView, CAAnimationDelegate {
     }
 
     //this will be called when user starts to move his finger
+    
+    
+    public var lang = "en"
     func touchMoved(recordButton: RecordButton, sender: UIPanGestureRecognizer) {
 
         guard !isSwiped else {
@@ -295,18 +298,35 @@ public class RecordView: UIView, CAAnimationDelegate {
         case .changed:
 
             //prevent swiping the button outside the bounds
-            if translation.x < 0 {
-                //start move the views
-                let transform = mTransform.translatedBy(x: translation.x, y: 0)
-                button.transform = transform
-                slideToCancelStackVIew.transform = transform.scaledBy(x: 0.5, y: 0.5)
+            if lang == "en"{
+                if translation.x < 0 {
+                    //start move the views
+                    let transform = mTransform.translatedBy(x: translation.x, y: 0)
+                    button.transform = transform
+                    slideToCancelStackVIew.transform = transform.scaledBy(x: 0.5, y: 0.5)
 
 
-                if slideToCancelStackVIew.frame.intersects(timerStackView.frame.offsetBy(dx: offset, dy: 0)) {
-                    onSwipe(recordButton: recordButton)
+                    if slideToCancelStackVIew.frame.intersects(timerStackView.frame.offsetBy(dx: offset, dy: 0)) {
+                        onSwipe(recordButton: recordButton)
+                    }
+
                 }
+            }else{
+                if translation.x > 0 {
+                    //start move the views
+                    let transform = mTransform.translatedBy(x: translation.x, y: 0)
+                    button.transform = transform
+                    slideToCancelStackVIew.transform = transform.scaledBy(x: 0.5, y: 0.5)
 
+
+                    if slideToCancelStackVIew.frame.intersects(timerStackView.frame.offsetBy(dx: offset, dy: 0)) {
+                        onSwipe(recordButton: recordButton)
+                    }
+
+                }
             }
+           
+            
         default:
             break
         }
